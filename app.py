@@ -27,3 +27,9 @@ df['manufacturer'] = df['model'].apply(lambda x: x.split()[0])
 
 # Reset index after cleaning
 df.reset_index(drop=True, inplace=True)
+
+# create a text header above the dataframe
+st.header('Data viewer') 
+
+# display the dataframe with streamlit
+st.dataframe(df)
