@@ -25,6 +25,9 @@ df.drop(odometer_outliers, inplace=True)
 # Add "Manufacturer" column for further use
 df['manufacturer'] = df['model'].apply(lambda x: x.split()[0])
 
+# Convert all columns to string type
+df = df.astype(str)
+
 # Reset index after cleaning
 df.reset_index(drop=True, inplace=True)
 
