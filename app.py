@@ -5,9 +5,6 @@ import plotly.express as plt
 # Load the dataset
 df = pd.read_csv('vehicles_us.csv')
 
-# Add "Manufacturer" column for further use
-df['manufacturer'] = df['model'].apply(lambda x: x.split()[0])
-
 # Handle missing values
 df['model_year'] = df['model_year'].fillna(df['model_year'].median())
 df['cylinders'] = df['cylinders'].fillna(df['cylinders'].median())
@@ -24,6 +21,9 @@ df.drop(price_outliers, inplace=True)
 
 odometer_outliers = df[df['odometer'] > 500000].index
 df.drop(odometer_outliers, inplace=True)
+
+# Add "Manufacturer" column for further use
+df['manufacturer'] = df['model'].apply(lambda x: x.split()[0])
 
 # Reset index after cleaning
 df.reset_index(drop=True, inplace=True)
