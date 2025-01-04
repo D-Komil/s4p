@@ -3,24 +3,27 @@ import streamlit as st
 import plotly.express as plt
 
 # Load the dataset
-data = pd.read_csv('vehicles_us.csv')
+df = pd.read_csv('vehicles_us.csv')
+
+# Add "Manufacturer" column for further use
+df['manufacturer'] = df['model'].apply(lambda x: x.split()[0])
 
 # Handle missing values
-data['model_year'] = data['model_year'].fillna(data['model_year'].median())
-data['cylinders'] = data['cylinders'].fillna(data['cylinders'].median())
-data['odometer'] = data['odometer'].fillna(data['odometer'].median())
-data['paint_color'] = data['paint_color'].fillna('unknown')
-data['is_4wd'] = data['is_4wd'].fillna(0).astype(bool)  # Convert to boolean
+df['model_year'] = df['model_year'].fillna(df['model_year'].median())
+df['cylinders'] = df['cylinders'].fillna(df['cylinders'].median())
+df['odometer'] = df['odometer'].fillna(df['odometer'].median())
+df['paint_color'] = df['paint_color'].fillna('unknown')
+df['is_4wd'] = df['is_4wd'].fillna(0).astype(bool)  # Convert to boolean
 
 # Convert 'date_posted' to datetime
-data['date_posted'] = pd.to_datetime(data['date_posted'])
+df['date_posted'] = pd.to_datetime(df['date_posted'])
 
 # Remove outliers
-price_outliers = data[(data['price'] < 500) | (data['price'] > 100000)].index
-data.drop(price_outliers, inplace=True)
+price_outliers = df[(df['price'] < 500) | (df['price'] > 100000)].index
+df.drop(price_outliers, inplace=True)
 
-odometer_outliers = data[data['odometer'] > 500000].index
-data.drop(odometer_outliers, inplace=True)
+odometer_outliers = df[df['odometer'] > 500000].index
+df.drop(odometer_outliers, inplace=True)
 
 # Reset index after cleaning
-data.reset_index(drop=True, inplace=True)
+df.reset_index(drop=True, inplace=True)
